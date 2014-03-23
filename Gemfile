@@ -8,6 +8,7 @@ gem "sprockets"
 gem "sprockets-helpers"
 gem "sprockets-sass"
 gem "bootstrap-sass"
+gem "nokogiri"
 
 group :development do
   gem "sinatra-reloader", require: "sinatra/reloader"

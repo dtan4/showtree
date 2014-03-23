@@ -1,3 +1,6 @@
+require "json"
+require "open-uri"
+
 class App < Sinatra::Base
   set :sprockets, Sprockets::Environment.new
 
@@ -22,6 +25,26 @@ class App < Sinatra::Base
 
   helpers Sprockets::Helpers
 
+  helpers do
+    def get_element_attributes(element)
+      {
+       name: element.name,
+       class: element.attr("class") || "",
+       id: element.attr("id") || "",
+       children: get_children(element)
+      }
+    end
+
+    def get_children(element)
+      children = []
+      element.children.select { |el| el.is_a? Nokogiri::XML::Element }.each do |el|
+        children << get_element_attributes(el)
+      end if element.children.length > 0
+
+      children
+    end
+  end
+
   get "/" do
     slim :index
   end
@@ -32,5 +55,14 @@ class App < Sinatra::Base
 
   get "/application.css" do
     sass :application
+  end
+
+  get "/getjson" do
+    content_type :json
+
+    url = params[:url]
+    body = Nokogiri::HTML.parse(open(url).read).css("body").first
+    json_data = get_element_attributes(body)
+    JSON.generate json_data
   end
 end
