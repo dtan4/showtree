@@ -96,20 +96,20 @@ update = (source) ->
     d.y0 = d.y
     )
 
-d3.json('/sample.json', (error, data) ->
-  return unless data.status
+$('#showBtn').click( ->
+  d3.json('/getjson?url=' + $('#urlInput').val(), (error, data) ->
+    return unless data.status
 
-  console.log data.tree
-  root = data.tree
-  root.x0 = height / 2
-  root.y0 = 0
+    root = data.tree
+    root.x0 = height / 2
+    root.y0 = 0
 
-  collapse = (d) ->
-    return unless d.children
-    d._children = d.children
-    d._children.forEach collapse
-    d.children = null
+    collapse = (d) ->
+      return unless d.children
+      d._children = d.children
+      d._children.forEach collapse
+      d.children = null
 
-  root.children.forEach(collapse)
-  update(root)
+    update(root)
+  )
 )
