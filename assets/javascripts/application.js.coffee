@@ -42,12 +42,12 @@ update = (source) ->
     .attr('transform', (d) -> 'translate(' + source.y0 + ',' + source.x0 + ')')
     .on('click', click)
 
-  nodeEnter.append('circle').attr('r', 1e-6).style('fill', (d) -> d._children ? 'lightsteelblue' : '#fff')
+  nodeEnter.append('circle').attr('r', 1e-6).style('fill', (d) -> if d._children then 'lightsteelblue' else '#fff')
 
   nodeEnter.append('text')
-    .attr('x', (d) -> d.children || d._children ? -10 : 10)
+    .attr('x', (d) -> if d.children || d._children then -10 else 10)
     .attr('dy', '.35em')
-    .attr('text-anchor', (d) -> d.children || d._children ? 'end' : 'start')
+    .attr('text-anchor', (d) -> if d.children || d._children then 'end' else 'start')
     .text((d) -> d.name)
     .style('fill-opacity', 1e-6)
 
@@ -57,7 +57,7 @@ update = (source) ->
 
   nodeUpdate.select('circle')
     .attr('r', 4.5)
-    .style('fill', (d) -> d._children ? 'lightsteelblue' : '#fff')
+    .style('fill', (d) -> if d._children then 'lightsteelblue' else '#fff')
 
   nodeUpdate.select('text').style('fill-opacity', 1)
 
