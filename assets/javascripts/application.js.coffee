@@ -3,7 +3,7 @@
 #=require bootstrap
 
 margin = { top: 20, right: 50, bottom: 20, left: 50 }
-width = 1280 - margin.right - margin.left
+width = $(window).width() - margin.right - margin.left
 height = 800 - margin.top - margin.left
 
 tree = d3.layout.tree().size([height, width])
