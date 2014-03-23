@@ -59,10 +59,18 @@ class App < Sinatra::Base
 
   get "/getjson" do
     content_type :json
-
     url = params[:url]
-    body = Nokogiri::HTML.parse(open(url).read).css("body").first
-    json_data = get_element_attributes(body)
+
+    begin
+      body = Nokogiri::HTML.parse(open(url).read).css("body").first
+      json_data = {
+                   status: true,
+                   tree: get_element_attributes(body)
+                  }
+    rescue # TODO: error handling
+      json_data = { status: false }
+    end
+
     JSON.generate json_data
   end
 end
