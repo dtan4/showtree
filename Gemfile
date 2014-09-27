@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby "2.1.1"
+ruby "2.1.3"
 
 gem "sinatra", require: "sinatra/base"
 gem "coffee-script"
